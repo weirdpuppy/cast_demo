@@ -788,35 +788,68 @@ cast.games.common.sender.setup.onCastError_ = function(error) {
   console.log("### Cast sender API error:");
   console.dir(error);
 };
-cast.games.spritedemo = {};
-cast.games.spritedemo.SpritedemoMessageType = {UNKNOWN:0, SPRITE:1};
-cast.games.spritedemo.SpritedemoMessage = function() {
-  this.type = cast.games.spritedemo.SpritedemoMessageType.UNKNOWN;
-};
-goog.exportSymbol("cast.games.spritedemo.SpritedemoMessage", cast.games.spritedemo.SpritedemoMessage);
-var gameManagerClient = null;
+var gameManagerClient = null, timeoutObject, lastMessageWasFire = !0, HUMAN_PLAYER_ID_SUFFIXES = {WSD:"WSD", IKL:"IKL", ARROW:"ARROW", NUMPAD:"NUMPAD"}, keyCodeActionMap = {87:{keySet:HUMAN_PLAYER_ID_SUFFIXES.WSD, fire:!1, move:-.1}, 83:{keySet:HUMAN_PLAYER_ID_SUFFIXES.WSD, fire:!1, move:.1}, 68:{keySet:HUMAN_PLAYER_ID_SUFFIXES.WSD, fire:!0, move:0}, 73:{keySet:HUMAN_PLAYER_ID_SUFFIXES.IKL, fire:!1, move:-.1}, 75:{keySet:HUMAN_PLAYER_ID_SUFFIXES.IKL, fire:!1, move:.1}, 76:{keySet:HUMAN_PLAYER_ID_SUFFIXES.IKL, 
+fire:!0, move:0}, 38:{keySet:HUMAN_PLAYER_ID_SUFFIXES.ARROW, fire:!1, move:-.1}, 40:{keySet:HUMAN_PLAYER_ID_SUFFIXES.ARROW, fire:!1, move:.1}, 39:{keySet:HUMAN_PLAYER_ID_SUFFIXES.ARROW, fire:!0, move:0}, 104:{keySet:HUMAN_PLAYER_ID_SUFFIXES.NUMPAD, fire:!1, move:-.1}, 101:{keySet:HUMAN_PLAYER_ID_SUFFIXES.NUMPAD, fire:!1, move:.1}, 102:{keySet:HUMAN_PLAYER_ID_SUFFIXES.NUMPAD, fire:!0, move:0}}, playerIdPrefix = "ChromeSender" + Math.random() + ":", playerPositions = {};
 window.__onGCastApiAvailable = function(loaded, errorInfo) {
-  loaded ? cast.games.common.sender.setup("D6120C32", onSessionReady_) : (console.error("### Cast Sender SDK failed to load:"), console.dir(errorInfo));
+  loaded ? cast.games.common.sender.setup("54E247D6", onSessionReady_) : (console.error("### Cast Sender SDK failed to load:"), console.dir(errorInfo));
 };
-var onSessionReady_ = function(session) {
+var updatePlayerPosition_ = function(playerId, delta) {
+  void 0 == playerPositions[playerId] && (playerPositions[playerId] = .5);
+  var position = playerPositions[playerId] + delta, position = 1 < position ? 1 : position, position = 0 > position ? 0 : position;
+  return playerPositions[playerId] = position;
+}, onSessionReady_ = function(session) {
   console.log("### Creating game manager client.");
   chrome.cast.games.GameManagerClient.getInstanceFor(session, function(result) {
     console.log("### Game manager client initialized!");
     gameManagerClient = result.gameManagerClient;
     cast.games.common.sender.debugGameManagerClient(gameManagerClient);
-    console.log("### Sending AVAILABLE message.");
-    gameManagerClient.sendPlayerAvailableRequest(null, null, null);
+    window.addEventListener("keydown", onKeyDown_, !0);
     help();
   }, function(error) {
     console.error("### Error initializing the game manager client: " + error.errorDescription + " Error code: " + error.errorCode);
   });
+}, onKeyDown_ = function(event) {
+  console.log("### Key detected: " + event.keyCode);
+  var keyCodeAction = keyCodeActionMap[event.keyCode], playerId = playerIdPrefix + keyCodeAction.keySet, message = {};
+  message.fire = keyCodeAction.fire;
+  message.move = updatePlayerPosition_(playerId, keyCodeAction.move);
+  playerId && message && (gameManagerClient.getCurrentState().getPlayer(playerId) ? gameManagerClient.sendGameMessageWithPlayerId(playerId, message) : gameManagerClient.sendPlayerAvailableRequestWithPlayerId(playerId, null, null, null));
 };
-goog.exportSymbol("sendSpritedemoMessage", function() {
-  if (gameManagerClient) {
-    var message = new cast.games.spritedemo.SpritedemoMessage;
-    message.type = cast.games.spritedemo.SpritedemoMessageType.SPRITE;
-    gameManagerClient.sendGameMessage(message);
+goog.exportSymbol("startPeriodicMessages", function(playerId, messageFactory, frequency) {
+  stopPeriodicMessages();
+  if (!playerId) {
+    var players = gameManagerClient.getCurrentState().getPlayers();
+    0 < players.length && (playerId = players[0].playerId);
+  }
+  if (playerId) {
+    var closure = function() {
+      var message = messageFactory(playerId);
+      gameManagerClient.sendGameMessageWithPlayerId(playerId, message);
+      timeoutObject = setTimeout(closure, frequency);
+    };
+    closure();
+  } else {
+    console.log("### Can't start sending periodic messages. No players!");
   }
 });
-commandDocs.add("sendSpritedemoMessage() - This function creates a new cast.games.spritedemo.SpritedemoMessage(), which is a container created specifically for the needs of this cast application. It then  sends the message to the receiver using the  sendGameMessageWithPlayerId function in GameManagerClient.");
+commandDocs.add("startPeriodicMessages(playerId, messageFactory, frequency) - send preriodic messages constructed by messageFactory");
+var stopPeriodicMessages = function() {
+  timeoutObject && clearTimeout(timeoutObject);
+};
+goog.exportSymbol("stopPeriodicMessages", stopPeriodicMessages);
+commandDocs.add("stopPeriodicMessages() - stop sending periodic messages.");
+goog.exportSymbol("randomMessageFactory", function() {
+  var message = {fire:!1};
+  .5 < Math.random() && (message.fire = !0);
+  message.move = Math.random();
+  return message;
+});
+commandDocs.add("randomMessageFactory - random message factory for starcast");
+goog.exportSymbol("alignedMessageFactory", function(playerId) {
+  var message = {fire:!1};
+  lastMessageWasFire ? (message.move = updatePlayerPosition_(playerId, .1), 1 <= message.move && (playerPositions[playerId] = -.1)) : message.fire = !0;
+  lastMessageWasFire = !lastMessageWasFire;
+  return message;
+});
+commandDocs.add("alignedMessageFactory - message factory for starcast that sends a move message followed by a fire message");
 

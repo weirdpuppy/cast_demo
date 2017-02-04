@@ -16,9 +16,10 @@ limitations under the License.
 -->
 <resources>
 
-    <string name="app_name">Sprite Demo</string>
+    <string name="app_name">StarCast</string>
     <string name="media_route_menu_title">Play on&#8230;</string>
-    <string name="button_add_sprite">Add Sprite</string>
+    <string name="game_name_starcast">Star Cast</string>
+    <string name="button_fire">Fire!</string>
     <string name="connect_label">Connect to the Google Cast device to start playing</string>
     <string name="game_connection_error_message">Game Connection Error</string>
     <string name="game_dialog_ok_button_text">OK</string>

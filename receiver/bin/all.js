@@ -607,114 +607,263 @@ cast.games.common = {};
 cast.games.common.receiver = {};
 cast.games.common.receiver.Game = function() {
 };
-cast.games.spritedemo = {};
-cast.games.spritedemo.SpritedemoMessageType = {UNKNOWN:0, SPRITE:1};
-cast.games.spritedemo.SpritedemoMessage = function() {
-  this.type = cast.games.spritedemo.SpritedemoMessageType.UNKNOWN;
-};
-goog.exportSymbol("cast.games.spritedemo.SpritedemoMessage", cast.games.spritedemo.SpritedemoMessage);
-cast.games.spritedemo.SpritedemoGame = function(gameManager) {
+cast.games.starcast = {};
+cast.games.starcast.StarcastGame = function(gameManager) {
   this.gameManager_ = gameManager;
   this.debugUi = new cast.receiver.games.debug.DebugUI(this.gameManager_);
+  this.randomAiEnabled = !1;
   this.canvasWidth_ = window.innerWidth;
   this.canvasHeight_ = window.innerHeight;
-  this.sprites_ = [];
-  this.spriteVelocities_ = [];
-  this.backgroundPosition_ = this.numberSpritesAdded_ = 0;
-  this.backgroundWrap_ = this.background_ = null;
+  this.DISPLAY_BORDER_BUFFER_WIDTH_ = window.innerWidth / 2;
+  this.MAX_PLAYERS_ = 4;
+  this.MAX_ENEMIES_ = 5;
+  this.MAX_PLAYER_BULLETS_ = 20;
+  this.MAX_EXPLOSIONS_ = 5;
+  this.MIN_SPEED_ = 10;
+  this.MAX_SPEED_ = 30;
+  this.BULLET_SPEED_ = 40;
+  this.MULTIPLE_FIRE_MESSAGES_ERROR_ = "Multiple fire messages on a single frame: ";
+  this.players_ = [];
+  this.playerMap_ = {};
+  this.enemies_ = [];
+  this.enemySpeeds_ = new Uint32Array(this.MAX_ENEMIES_);
+  this.loopIterator_ = new Uint32Array(2);
+  this.playerBullets_ = [];
+  this.backgroundSprite_ = null;
+  this.explosionTextures_ = [];
+  this.explosions_ = [];
+  this.fireThisFrame_ = !1;
   this.boundUpdateFunction_ = this.update_.bind(this);
   this.isRunning_ = this.isLoaded_ = !1;
   this.container_ = new PIXI.Container;
   this.renderer_ = new PIXI.WebGLRenderer(this.canvasWidth_, this.canvasHeight_);
   this.loader_ = new PIXI.loaders.Loader;
-  this.loader_.add("assets/icon.png");
   this.loader_.add("assets/background.jpg");
+  this.loader_.add("assets/player.png");
+  this.loader_.add("assets/enemy.png");
+  this.loader_.add("assets/explosion.json");
+  this.loader_.add("assets/explosion.png");
+  this.loader_.add("assets/player_bullet.png");
   this.loader_.once("complete", this.onAssetsLoaded_.bind(this));
   this.loadedCallback_ = null;
   this.boundGameMessageCallback_ = this.onGameMessage_.bind(this);
   this.boundPlayerAvailableCallback_ = this.onPlayerAvailable_.bind(this);
   this.boundPlayerQuitCallback_ = this.onPlayerQuit_.bind(this);
 };
-goog.exportSymbol("cast.games.spritedemo.SpritedemoGame", cast.games.spritedemo.SpritedemoGame);
-cast.games.spritedemo.SpritedemoGame.MAX_NUM_SPRITES = 200;
-cast.games.spritedemo.SpritedemoGame.SCALE = 1;
-cast.games.spritedemo.SpritedemoGame.getRandomInt = function(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-cast.games.spritedemo.SpritedemoGame.prototype.run = function(loadedCallback) {
+goog.exportSymbol("cast.games.starcast.StarcastGame", cast.games.starcast.StarcastGame);
+cast.games.starcast.StarcastGame.FIRE_FIELD_ = "fire";
+cast.games.starcast.StarcastGame.MOVE_FIELD_ = "move";
+cast.games.starcast.StarcastGame.prototype.run = function(loadedCallback) {
   this.isRunning_ ? loadedCallback() : (this.loadedCallback_ = loadedCallback, this.isLoaded_ ? this.start_() : this.loader_.load());
 };
-goog.exportProperty(cast.games.spritedemo.SpritedemoGame.prototype, "run", cast.games.spritedemo.SpritedemoGame.prototype.run);
-cast.games.spritedemo.SpritedemoGame.prototype.stop = function() {
-  this.loadedCallback_ || !this.isRunning_ ? this.loadedCallback_ = null : (this.isRunning_ = !1, document.body.removeChild(this.renderer_.view), this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, this.boundPlayerAvailableCallback_), this.gameManager_.removeEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, this.boundGameMessageCallback_), this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_QUIT, this.boundPlayerQuitCallback_), 
+goog.exportProperty(cast.games.starcast.StarcastGame.prototype, "run", cast.games.starcast.StarcastGame.prototype.run);
+cast.games.starcast.StarcastGame.prototype.stop = function() {
+  this.loadedCallback_ || !this.isRunning_ ? this.loadedCallback_ = null : (this.isRunning_ = !1, document.body.removeChild(this.renderer_.view), this.gameManager_.removeEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, this.boundGameMessageCallback_), this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, this.boundPlayerAvailableCallback_), this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_QUIT, this.boundPlayerQuitCallback_), 
   this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, this.boundPlayerQuitCallback_));
 };
-goog.exportProperty(cast.games.spritedemo.SpritedemoGame.prototype, "stop", cast.games.spritedemo.SpritedemoGame.prototype.stop);
-cast.games.spritedemo.SpritedemoGame.prototype.start_ = function() {
-  this.loadedCallback_ && (document.body.appendChild(this.renderer_.view), this.isRunning_ = !0, this.gameManager_.updateGameplayState(cast.receiver.games.GameplayState.RUNNING, null), requestAnimationFrame(this.boundUpdateFunction_), this.loadedCallback_(), this.loadedCallback_ = null, this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, this.boundPlayerAvailableCallback_), this.gameManager_.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, this.boundGameMessageCallback_), 
-  this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT, this.boundPlayerQuitCallback_), this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, this.boundPlayerQuitCallback_));
+goog.exportProperty(cast.games.starcast.StarcastGame.prototype, "stop", cast.games.starcast.StarcastGame.prototype.stop);
+cast.games.starcast.StarcastGame.prototype.start_ = function() {
+  if (this.loadedCallback_) {
+    document.body.appendChild(this.renderer_.view);
+    this.isRunning_ = !0;
+    this.gameManager_.updateGameplayState(cast.receiver.games.GameplayState.RUNNING, null);
+    for (var players = this.gameManager_.getPlayers(), i = 0;i < players.length;i++) {
+      this.addPlayer_(players[i].playerId);
+    }
+    requestAnimationFrame(this.boundUpdateFunction_);
+    this.loadedCallback_();
+    this.loadedCallback_ = null;
+    this.gameManager_.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, this.boundGameMessageCallback_);
+    this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, this.boundPlayerAvailableCallback_);
+    this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT, this.boundPlayerQuitCallback_);
+    this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, this.boundPlayerQuitCallback_);
+  }
 };
-cast.games.spritedemo.SpritedemoGame.prototype.onAssetsLoaded_ = function() {
-  this.background_ = PIXI.Sprite.fromImage("assets/background.jpg");
-  this.background2_ = PIXI.Sprite.fromImage("assets/background.jpg");
-  this.background_.position.x = this.background_.position.y = 0;
-  this.background2_.position.x = this.background2_.position.y = 0;
-  this.container_.addChild(this.background_);
-  this.container_.addChild(this.background2_);
-  for (var i = 0;i < cast.games.spritedemo.SpritedemoGame.MAX_NUM_SPRITES;i++) {
-    var sprite = PIXI.Sprite.fromImage("assets/icon.png");
-    sprite.anchor.x = .5;
-    sprite.anchor.y = .5;
-    sprite.scale.x = sprite.scale.y = cast.games.spritedemo.SpritedemoGame.SCALE;
-    this.sprites_[i] = sprite;
-    this.spriteVelocities_[i] = {x:0, y:0};
+cast.games.starcast.StarcastGame.prototype.onAssetsLoaded_ = function() {
+  this.backgroundSprite_ = PIXI.Sprite.fromImage("assets/background.jpg");
+  this.backgroundSprite_.width = this.canvasWidth_;
+  this.backgroundSprite_.height = this.canvasHeight_;
+  this.container_.addChild(this.backgroundSprite_);
+  for (var i = 0;i < this.MAX_PLAYERS_;i++) {
+    var player = PIXI.Sprite.fromImage("assets/player.png");
+    player.anchor.x = .5;
+    player.anchor.y = .5;
+    player.position.x = 60;
+    player.position.y = this.canvasHeight_ / 2;
+    player.scale.x = player.scale.y = 1;
+    player.visible = !1;
+    this.container_.addChild(player);
+    this.players_.push(player);
+  }
+  for (i = 0;i < this.MAX_ENEMIES_;i++) {
+    var enemy = PIXI.Sprite.fromImage("assets/enemy.png");
+    enemy.anchor.x = .5;
+    enemy.anchor.y = .5;
+    enemy.position.x = -(enemy.texture.width + this.DISPLAY_BORDER_BUFFER_WIDTH_);
+    enemy.position.y = 0;
+    this.container_.addChild(enemy);
+    this.enemies_.push(enemy);
+    this.enemySpeeds_[i] = 0;
+  }
+  for (i = 0;i < this.MAX_PLAYER_BULLETS_;i++) {
+    var bullet = PIXI.Sprite.fromImage("assets/player_bullet.png");
+    bullet.anchor.x = .5;
+    bullet.anchor.y = .5;
+    bullet.position.x = 0;
+    bullet.position.y = 0;
+    bullet.visible = !1;
+    this.container_.addChild(bullet);
+    this.playerBullets_.push(bullet);
+  }
+  for (i = 0;12 > i;i++) {
+    var explosionTexture = PIXI.Texture.fromFrame("explosion" + (i + 1));
+    this.explosionTextures_.push(explosionTexture);
+  }
+  for (i = 0;i < this.MAX_EXPLOSIONS_;i++) {
+    var explosion = new PIXI.extras.MovieClip(this.explosionTextures_);
+    explosion.anchor.x = .5;
+    explosion.anchor.y = .5;
+    explosion.position.x = 0;
+    explosion.position.y = 0;
+    explosion.visible = !1;
+    explosion.loop = !1;
+    explosion.onComplete = goog.bind(this.hideExplosion_, this, explosion);
+    this.container_.addChild(explosion);
+    this.explosions_.push(explosion);
   }
   this.start_();
 };
-cast.games.spritedemo.SpritedemoGame.prototype.onPlayerAvailable_ = function(event) {
-  event.statusCode != cast.receiver.games.StatusCode.SUCCESS ? (console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription)) : this.gameManager_.updatePlayerState(event.playerInfo.playerId, cast.receiver.games.PlayerState.PLAYING, null);
+cast.games.starcast.StarcastGame.prototype.update_ = function() {
+  if (this.isRunning_) {
+    requestAnimationFrame(this.boundUpdateFunction_);
+    this.fireThisFrame_ = !1;
+    if (this.randomAiEnabled) {
+      for (var players = this.gameManager_.getPlayers(), i = 0;i < players.length;i++) {
+        this.onPlayerMessage_(players[i], .5 > Math.random() ? !0 : !1, 1.1 * Math.random());
+      }
+    }
+    for (this.loopIterator_[0] = 0;this.loopIterator_[0] < this.MAX_ENEMIES_;this.loopIterator_[0]++) {
+      this.updateEnemy_();
+    }
+    for (this.loopIterator_[0] = 0;this.loopIterator_[0] < this.MAX_PLAYER_BULLETS_;this.loopIterator_[0]++) {
+      this.updateBullet_();
+    }
+    this.renderer_.render(this.container_);
+  }
 };
-cast.games.spritedemo.SpritedemoGame.prototype.onPlayerQuit_ = function(event) {
-  event.statusCode != cast.receiver.games.StatusCode.SUCCESS ? (console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription)) : 0 == this.gameManager_.getConnectedPlayers().length && (console.log("No more players connected. Tearing down game."), cast.receiver.CastReceiverManager.getInstance().stop());
-};
-cast.games.spritedemo.SpritedemoGame.prototype.onGameMessage_ = function(event) {
+cast.games.starcast.StarcastGame.prototype.onPlayerAvailable_ = function(event) {
   if (event.statusCode != cast.receiver.games.StatusCode.SUCCESS) {
     console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription);
   } else {
-    if (event.requestExtraMessageData.type == cast.games.spritedemo.SpritedemoMessageType.SPRITE) {
-      if (this.numberSpritesAdded_ < cast.games.spritedemo.SpritedemoGame.MAX_NUM_SPRITES) {
-        var sprite = this.sprites_[this.numberSpritesAdded_];
-        sprite.position.x = cast.games.spritedemo.SpritedemoGame.getRandomInt(sprite.width / 2, this.canvasWidth_ - sprite.width / 2);
-        sprite.position.y = cast.games.spritedemo.SpritedemoGame.getRandomInt(sprite.height / 2, this.canvasHeight_ - sprite.height / 2);
-        this.numberSpritesAdded_ += 1;
-        this.container_.addChild(sprite);
-      } else {
-        console.log("Maximum number of sprites added. Not adding a new one");
+    var playerId = event.playerInfo.playerId;
+    this.gameManager_.updatePlayerState(playerId, cast.receiver.games.PlayerState.PLAYING, null);
+    this.addPlayer_(playerId);
+  }
+};
+cast.games.starcast.StarcastGame.prototype.addPlayer_ = function(playerId) {
+  var playerSprite = this.playerMap_[playerId];
+  if (!playerSprite || !playerSprite.visible) {
+    for (var i = 0;i < this.MAX_PLAYERS_;i++) {
+      var player = this.players_[i];
+      if (player && !player.visible) {
+        this.playerMap_[playerId] = player;
+        player.visible = !0;
+        player.tint = 16777215 * Math.random();
+        break;
       }
     }
   }
 };
-cast.games.spritedemo.SpritedemoGame.prototype.update_ = function() {
-  if (this.isRunning_) {
-    requestAnimationFrame(this.boundUpdateFunction_);
-    for (var i = 0;i < this.numberSpritesAdded_;i++) {
-      this.sprites_[i].rotation += .1;
-      this.spriteVelocities_[i].x += cast.games.spritedemo.SpritedemoGame.getRandomInt(-2, 2);
-      this.spriteVelocities_[i].y += cast.games.spritedemo.SpritedemoGame.getRandomInt(-2, 2);
-      10 < Math.abs(this.spriteVelocities_[i].x) && (this.spriteVelocities_[i].x *= .8);
-      10 < Math.abs(this.spriteVelocities_[i].y) && (this.spriteVelocities_[i].y *= .8);
-      this.sprites_[i].position.x += this.spriteVelocities_[i].x;
-      this.sprites_[i].position.y += this.spriteVelocities_[i].y;
-      var spriteX = this.sprites_[i].position.x, spriteY = this.sprites_[i].position.y;
-      0 >= spriteX ? (this.spriteVelocities_[i].x *= -1, this.sprites_[i].position.x = 0) : spriteX >= this.canvasWidth_ && (this.spriteVelocities_[i].x *= -1, this.sprites_[i].position.x = this.canvasWidth_);
-      0 >= spriteY ? (this.spriteVelocities_[i].y *= -1, this.sprites_[i].position.y = 0) : spriteY >= this.canvasHeight_ && (this.spriteVelocities_[i].y *= -1, this.sprites_[i].position.y = this.canvasHeight_);
+cast.games.starcast.StarcastGame.prototype.onPlayerQuit_ = function(event) {
+  if (event.statusCode != cast.receiver.games.StatusCode.SUCCESS) {
+    console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription);
+  } else {
+    var playerSprite = this.playerMap_[event.playerInfo.playerId];
+    playerSprite && (playerSprite.visible = !1);
+    delete this.playerMap_[event.playerInfo.playerId];
+    0 == this.gameManager_.getConnectedPlayers().length && (console.log("No more players connected. Tearing down game."), cast.receiver.CastReceiverManager.getInstance().stop());
+  }
+};
+cast.games.starcast.StarcastGame.prototype.onGameMessage_ = function(event) {
+  if (event.statusCode != cast.receiver.games.StatusCode.SUCCESS) {
+    console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription);
+  } else {
+    var player = this.gameManager_.getPlayer(event.playerInfo.playerId);
+    if (!player) {
+      throw Error("No player found for player ID " + event.playerInfo.playerId);
     }
-    this.backgroundPosition_++;
-    this.background_.position.x = this.backgroundPosition_;
-    this.background_.position.x %= this.background_.texture.width;
-    this.background2_.position.x = this.background_.position.x;
-    this.background2_.position.x -= this.background_.texture.width;
-    this.renderer_.render(this.container_);
+    var moveField = event.requestExtraMessageData[cast.games.starcast.StarcastGame.MOVE_FIELD_];
+    this.onPlayerMessage_(player, !!event.requestExtraMessageData[cast.games.starcast.StarcastGame.FIRE_FIELD_], moveField ? parseFloat(moveField) : 0);
+  }
+};
+cast.games.starcast.StarcastGame.prototype.onPlayerMessage_ = function(player, fire, move) {
+  var playerSprite = this.playerMap_[player.playerId];
+  if (!playerSprite) {
+    throw Error("No player sprite found for player " + player.playerId);
+  }
+  fire ? (this.fireBullet_(playerSprite), this.fireThisFrame_ && console.log(this.MULTIPLE_FIRE_MESSAGES_ERROR_ + Date.now()), this.fireThisFrame_ = !0) : (1 < move ? move = 1 : 0 > move && (move = 0), playerSprite.position.y = move * (this.canvasHeight_ - playerSprite.texture.height) + playerSprite.texture.height / 2);
+};
+cast.games.starcast.StarcastGame.prototype.updateEnemy_ = function() {
+  var index = this.loopIterator_[0], enemy = this.enemies_[index];
+  if (enemy.position.x < -enemy.texture.width) {
+    enemy.position.x = this.canvasWidth_ + Math.random() * this.canvasWidth_, enemy.position.y = Math.random() * (this.canvasHeight_ - enemy.texture.height) + enemy.texture.height / 2, this.enemySpeeds_[index] = Math.floor(Math.random() * (this.MAX_SPEED_ - this.MIN_SPEED_ + 1)) + this.MIN_SPEED_;
+  } else {
+    enemy.position.x -= this.enemySpeeds_[index];
+    for (this.loopIterator_[1] = 0;this.loopIterator_[1] < this.MAX_PLAYERS_;this.loopIterator_[1]++) {
+      var player = this.players_[this.loopIterator_[1]];
+      if (player.visible && this.willCollide_(enemy, player)) {
+        this.showExplosion_(enemy);
+        enemy.visible = !1;
+        enemy.position.x = -(enemy.texture.width + this.DISPLAY_BORDER_BUFFER_WIDTH_);
+        return;
+      }
+    }
+    enemy.visible = !0;
+  }
+};
+cast.games.starcast.StarcastGame.prototype.updateBullet_ = function() {
+  var bullet = this.playerBullets_[this.loopIterator_[0]];
+  bullet.position.x > this.canvasWidth_ && (bullet.visible = !1);
+  if (bullet.visible) {
+    bullet.position.x += this.BULLET_SPEED_;
+    for (var i = 0;i < this.MAX_ENEMIES_;i++) {
+      var enemy = this.enemies_[i];
+      this.willCollide_(bullet, enemy) && (this.showExplosion_(bullet), bullet.visible = !1, enemy.visible = !1, enemy.position.x = -(enemy.texture.width + this.DISPLAY_BORDER_BUFFER_WIDTH_));
+    }
+  }
+};
+cast.games.starcast.StarcastGame.prototype.willCollide_ = function(sprite1, sprite2) {
+  var sprite1HalfWidth = sprite1.width / 2, sprite2HalfWidth = sprite2.width / 2;
+  if (sprite1.position.x - sprite1HalfWidth > sprite2.position.x + sprite2HalfWidth || sprite2.position.x - sprite2HalfWidth > sprite1.position.x + sprite1HalfWidth) {
+    return !1;
+  }
+  var sprite1HalfHeight = sprite1.height / 2, sprite2HalfHeight = sprite2.height / 2;
+  return sprite1.position.y - sprite1HalfHeight > sprite2.position.y + sprite2HalfHeight || sprite2.position.y - sprite2HalfHeight > sprite1.position.y + sprite1HalfHeight ? !1 : !0;
+};
+cast.games.starcast.StarcastGame.prototype.showExplosion_ = function(sprite) {
+  for (var i = 0;i < this.MAX_EXPLOSIONS_;i++) {
+    var explosion = this.explosions_[i];
+    if (!explosion.visible) {
+      explosion.position.x = sprite.position.x;
+      explosion.position.y = sprite.position.y;
+      explosion.visible = !0;
+      explosion.gotoAndPlay(0);
+      break;
+    }
+  }
+};
+cast.games.starcast.StarcastGame.prototype.hideExplosion_ = function(explosion) {
+  explosion.visible = !1;
+};
+cast.games.starcast.StarcastGame.prototype.fireBullet_ = function(player) {
+  for (var i = 0;i < this.MAX_PLAYER_BULLETS_;i++) {
+    var bullet = this.playerBullets_[i];
+    if (!bullet.visible) {
+      bullet.position.x = player.position.x;
+      bullet.position.y = player.position.y;
+      bullet.visible = !0;
+      break;
+    }
   }
 };
 

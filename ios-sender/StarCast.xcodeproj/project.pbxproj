@@ -1,0 +1,536 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		081237DE1A8E33F300E77D2F /* UINavigationController+CompletionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 081237DD1A8E33F300E77D2F /* UINavigationController+CompletionHandler.m */; };
+		08557FB21A56E249000901CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08557FB11A56E249000901CA /* main.m */; };
+		08557FB51A56E249000901CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08557FB41A56E249000901CA /* AppDelegate.m */; };
+		08557FB81A56E249000901CA /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08557FB71A56E249000901CA /* HomeViewController.m */; };
+		08557FBB1A56E249000901CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08557FB91A56E249000901CA /* Main.storyboard */; };
+		08557FBD1A56E249000901CA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08557FBC1A56E249000901CA /* Images.xcassets */; };
+		08557FC01A56E249000901CA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08557FBE1A56E249000901CA /* LaunchScreen.xib */; };
+		08557FD91A56E88F000901CA /* DeviceTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08557FD81A56E88F000901CA /* DeviceTableViewController.m */; };
+		088C5C9E1A8BCDA000CDF56F /* ChromecastDeviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088C5C9D1A8BCDA000CDF56F /* ChromecastDeviceController.m */; };
+		088ECC0C1A8D1F58000BF9C5 /* StarCastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088ECC0B1A8D1F58000BF9C5 /* StarCastViewController.m */; };
+		08DF7A261A97762500273FDF /* StarCastTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF7A241A97762300273FDF /* StarCastTests.m */; };
+		08DF7A281A9776C500273FDF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08DF7A271A9776C500273FDF /* Info.plist */; };
+		08DF7A2E1A978B0300273FDF /* UIButton+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF7A2D1A978B0300273FDF /* UIButton+Extensions.m */; };
+		F88490860DEE4B95F36D64B5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F16B1FBFCAEEDF347F1C3AB2 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		08557FC61A56E249000901CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08557FA41A56E249000901CA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 08557FAB1A56E249000901CA;
+			remoteInfo = StarCast;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		081237DC1A8E33F300E77D2F /* UINavigationController+CompletionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+CompletionHandler.h"; path = "../StarCast/UINavigationController+CompletionHandler.h"; sourceTree = "<group>"; };
+		081237DD1A8E33F300E77D2F /* UINavigationController+CompletionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+CompletionHandler.m"; path = "../StarCast/UINavigationController+CompletionHandler.m"; sourceTree = "<group>"; };
+		08557FAC1A56E249000901CA /* StarCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08557FB01A56E249000901CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../StarCast/Info.plist; sourceTree = "<group>"; };
+		08557FB11A56E249000901CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../StarCast/main.m; sourceTree = "<group>"; };
+		08557FB31A56E249000901CA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../StarCast/AppDelegate.h; sourceTree = "<group>"; };
+		08557FB41A56E249000901CA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../StarCast/AppDelegate.m; sourceTree = "<group>"; };
+		08557FB61A56E249000901CA /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = ../StarCast/HomeViewController.h; sourceTree = "<group>"; };
+		08557FB71A56E249000901CA /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = ../StarCast/HomeViewController.m; sourceTree = "<group>"; };
+		08557FBA1A56E249000901CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		08557FBC1A56E249000901CA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../StarCast/Images.xcassets; sourceTree = "<group>"; };
+		08557FBF1A56E249000901CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		08557FC51A56E249000901CA /* StarCastTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarCastTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		08557FD71A56E88F000901CA /* DeviceTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceTableViewController.h; path = ../StarCast/DeviceTableViewController.h; sourceTree = "<group>"; };
+		08557FD81A56E88F000901CA /* DeviceTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceTableViewController.m; path = ../StarCast/DeviceTableViewController.m; sourceTree = "<group>"; };
+		088C5C9C1A8BCDA000CDF56F /* ChromecastDeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChromecastDeviceController.h; path = ../StarCast/ChromecastDeviceController.h; sourceTree = "<group>"; };
+		088C5C9D1A8BCDA000CDF56F /* ChromecastDeviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChromecastDeviceController.m; path = ../StarCast/ChromecastDeviceController.m; sourceTree = "<group>"; };
+		088ECC0A1A8D1F58000BF9C5 /* StarCastViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StarCastViewController.h; path = ../StarCast/StarCastViewController.h; sourceTree = "<group>"; };
+		088ECC0B1A8D1F58000BF9C5 /* StarCastViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StarCastViewController.m; path = ../StarCast/StarCastViewController.m; sourceTree = "<group>"; };
+		08DF7A241A97762300273FDF /* StarCastTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StarCastTests.m; path = StarCastTests/StarCastTests.m; sourceTree = SOURCE_ROOT; };
+		08DF7A271A9776C500273FDF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = StarCastTests/Info.plist; sourceTree = SOURCE_ROOT; };
+		08DF7A2C1A978B0300273FDF /* UIButton+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+Extensions.h"; path = "../StarCast/UIButton+Extensions.h"; sourceTree = "<group>"; };
+		08DF7A2D1A978B0300273FDF /* UIButton+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+Extensions.m"; path = "../StarCast/UIButton+Extensions.m"; sourceTree = "<group>"; };
+		1B75F1BCD207F9D79CBD6272 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		9B472163E705C6AB608D8767 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		F16B1FBFCAEEDF347F1C3AB2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		08557FA91A56E249000901CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F88490860DEE4B95F36D64B5 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08557FC21A56E249000901CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08557FA31A56E249000901CA = {
+			isa = PBXGroup;
+			children = (
+				08557FAE1A56E249000901CA /* StarCast */,
+				08557FC81A56E249000901CA /* StarCastTests */,
+				08557FAD1A56E249000901CA /* Products */,
+				F490A406C1B48DCA574A13E3 /* Pods */,
+				14EA40B6D72BBD0F257B4AA4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		08557FAD1A56E249000901CA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				08557FAC1A56E249000901CA /* StarCast.app */,
+				08557FC51A56E249000901CA /* StarCastTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		08557FAE1A56E249000901CA /* StarCast */ = {
+			isa = PBXGroup;
+			children = (
+				08557FB31A56E249000901CA /* AppDelegate.h */,
+				08557FB41A56E249000901CA /* AppDelegate.m */,
+				08557FB61A56E249000901CA /* HomeViewController.h */,
+				08557FB71A56E249000901CA /* HomeViewController.m */,
+				088ECC0A1A8D1F58000BF9C5 /* StarCastViewController.h */,
+				088ECC0B1A8D1F58000BF9C5 /* StarCastViewController.m */,
+				08557FD71A56E88F000901CA /* DeviceTableViewController.h */,
+				08557FD81A56E88F000901CA /* DeviceTableViewController.m */,
+				088C5C9C1A8BCDA000CDF56F /* ChromecastDeviceController.h */,
+				088C5C9D1A8BCDA000CDF56F /* ChromecastDeviceController.m */,
+				081237DC1A8E33F300E77D2F /* UINavigationController+CompletionHandler.h */,
+				081237DD1A8E33F300E77D2F /* UINavigationController+CompletionHandler.m */,
+				08DF7A2C1A978B0300273FDF /* UIButton+Extensions.h */,
+				08DF7A2D1A978B0300273FDF /* UIButton+Extensions.m */,
+				08557FB91A56E249000901CA /* Main.storyboard */,
+				08557FBE1A56E249000901CA /* LaunchScreen.xib */,
+				08557FBC1A56E249000901CA /* Images.xcassets */,
+				08557FAF1A56E249000901CA /* Supporting Files */,
+			);
+			path = StarCast;
+			sourceTree = "<group>";
+		};
+		08557FAF1A56E249000901CA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				08557FB01A56E249000901CA /* Info.plist */,
+				08557FB11A56E249000901CA /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		08557FC81A56E249000901CA /* StarCastTests */ = {
+			isa = PBXGroup;
+			children = (
+				08DF7A241A97762300273FDF /* StarCastTests.m */,
+				08557FC91A56E249000901CA /* Supporting Files */,
+			);
+			path = StarCastTests;
+			sourceTree = "<group>";
+		};
+		08557FC91A56E249000901CA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				08DF7A271A9776C500273FDF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		14EA40B6D72BBD0F257B4AA4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F16B1FBFCAEEDF347F1C3AB2 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F490A406C1B48DCA574A13E3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9B472163E705C6AB608D8767 /* Pods.debug.xcconfig */,
+				1B75F1BCD207F9D79CBD6272 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		08557FAB1A56E249000901CA /* StarCast */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08557FCF1A56E249000901CA /* Build configuration list for PBXNativeTarget "StarCast" */;
+			buildPhases = (
+				5FF9B35928BCDF25B4B04E74 /* Check Pods Manifest.lock */,
+				08557FA81A56E249000901CA /* Sources */,
+				08557FA91A56E249000901CA /* Frameworks */,
+				08557FAA1A56E249000901CA /* Resources */,
+				616BF79E55123171F7005E3B /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StarCast;
+			productName = StarCast;
+			productReference = 08557FAC1A56E249000901CA /* StarCast.app */;
+			productType = "com.apple.product-type.application";
+		};
+		08557FC41A56E249000901CA /* StarCastTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08557FD21A56E249000901CA /* Build configuration list for PBXNativeTarget "StarCastTests" */;
+			buildPhases = (
+				08557FC11A56E249000901CA /* Sources */,
+				08557FC21A56E249000901CA /* Frameworks */,
+				08557FC31A56E249000901CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				08557FC71A56E249000901CA /* PBXTargetDependency */,
+			);
+			name = StarCastTests;
+			productName = StarCastTests;
+			productReference = 08557FC51A56E249000901CA /* StarCastTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08557FA41A56E249000901CA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Google;
+				TargetAttributes = {
+					08557FAB1A56E249000901CA = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					08557FC41A56E249000901CA = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = 08557FAB1A56E249000901CA;
+					};
+				};
+			};
+			buildConfigurationList = 08557FA71A56E249000901CA /* Build configuration list for PBXProject "StarCast" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 08557FA31A56E249000901CA;
+			productRefGroup = 08557FAD1A56E249000901CA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				08557FAB1A56E249000901CA /* StarCast */,
+				08557FC41A56E249000901CA /* StarCastTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		08557FAA1A56E249000901CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08DF7A281A9776C500273FDF /* Info.plist in Resources */,
+				08557FBB1A56E249000901CA /* Main.storyboard in Resources */,
+				08557FC01A56E249000901CA /* LaunchScreen.xib in Resources */,
+				08557FBD1A56E249000901CA /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08557FC31A56E249000901CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5FF9B35928BCDF25B4B04E74 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		616BF79E55123171F7005E3B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		08557FA81A56E249000901CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08557FB81A56E249000901CA /* HomeViewController.m in Sources */,
+				081237DE1A8E33F300E77D2F /* UINavigationController+CompletionHandler.m in Sources */,
+				08557FB51A56E249000901CA /* AppDelegate.m in Sources */,
+				088C5C9E1A8BCDA000CDF56F /* ChromecastDeviceController.m in Sources */,
+				08557FB21A56E249000901CA /* main.m in Sources */,
+				08DF7A2E1A978B0300273FDF /* UIButton+Extensions.m in Sources */,
+				08557FD91A56E88F000901CA /* DeviceTableViewController.m in Sources */,
+				088ECC0C1A8D1F58000BF9C5 /* StarCastViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08557FC11A56E249000901CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08DF7A261A97762500273FDF /* StarCastTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		08557FC71A56E249000901CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 08557FAB1A56E249000901CA /* StarCast */;
+			targetProxy = 08557FC61A56E249000901CA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		08557FB91A56E249000901CA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				08557FBA1A56E249000901CA /* Base */,
+			);
+			name = Main.storyboard;
+			path = ../StarCast;
+			sourceTree = "<group>";
+		};
+		08557FBE1A56E249000901CA /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				08557FBF1A56E249000901CA /* Base */,
+			);
+			name = LaunchScreen.xib;
+			path = ../StarCast;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		08557FCD1A56E249000901CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		08557FCE1A56E249000901CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		08557FD01A56E249000901CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B472163E705C6AB608D8767 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = StarCast/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		08557FD11A56E249000901CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B75F1BCD207F9D79CBD6272 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = StarCast/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		08557FD31A56E249000901CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = StarCastTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = StarCastTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StarCast.app/StarCast";
+			};
+			name = Debug;
+		};
+		08557FD41A56E249000901CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = StarCastTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = StarCastTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StarCast.app/StarCast";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		08557FA71A56E249000901CA /* Build configuration list for PBXProject "StarCast" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08557FCD1A56E249000901CA /* Debug */,
+				08557FCE1A56E249000901CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08557FCF1A56E249000901CA /* Build configuration list for PBXNativeTarget "StarCast" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08557FD01A56E249000901CA /* Debug */,
+				08557FD11A56E249000901CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08557FD21A56E249000901CA /* Build configuration list for PBXNativeTarget "StarCastTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08557FD31A56E249000901CA /* Debug */,
+				08557FD41A56E249000901CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08557FA41A56E249000901CA /* Project object */;
+}

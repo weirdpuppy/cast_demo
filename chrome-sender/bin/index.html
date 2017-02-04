@@ -16,52 +16,91 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-    <title>Spritedemo sender</title>
+    <title>Starcast sender</title>
     <style>
+      #starContainer, .stars {
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      .stars {
+        background-image:
+          radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+          radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+          radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
+          radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+          radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
+          radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0,0,0,0));
+        background-repeat: repeat;
+        background-size: 200px 200px;
+        opacity: 0;
+        -webkit-animation: starAnimation 5s infinite;
+      }
+
+      .type1 {
+        background-position: 40% 40%;
+        -webkit-animation-delay: 0s;
+      }
+      .type2 {
+        background-position: 20% 70%;
+        -webkit-animation-delay: 1s;
+      }
+      .type3 {
+        background-position: -30% -40%;
+        -webkit-animation-delay: 2s;
+      }
+      .type4 {
+        background-position: 50% -70%;
+        -webkit-animation-delay: 3s;
+      }
+
+      @-webkit-keyframes starAnimation {
+        0% {
+          opacity: 0;
+          transform: scale(0.4);
+          -webkit-animation-timing-function: ease-in;
+        }
+        80% {
+          opacity: 1;
+          transform: scale(2.3);
+          -webkit-animation-timing-function: linear;
+        }
+        100% {
+          opacity: 0;
+          -webkit-transform: scale(3.3);
+        }
+      }
+
       body {
-        background: #A7D6B5;
-        box-shadow: 0 0 0.5em #999;
-        color: #333;
-        margin: 0px;
-        padding: 1em;
-        text-align: center;
+        background: #000;
+        font-family: 'Arial', sans-serif;
       }
 
       .title {
-        background: #77A8D9;
-        box-shadow: 0 0 0.5em #999;
-        color: #333;
-        padding: 1em;
-        text-align: center;
-      }
-
-      .button {
-        background: #77A8D9;
-        border-radius: 50px;
-        box-shadow: 0 0 0.5em #999;
-        color: #333;
-        font-family: Helvetica;
-        font-size: 200%;
         margin-left: auto;
         margin-right: auto;
-        padding: 1em;
+      }
+
+      .title {
+        color: #0077A8D9;
+        font-size: 10em;
         text-align: center;
-        width: 40%;
+        text-shadow: 0 0 5px #6cf;
+        z-index: 1;
       }
 
-      .button:hover{
-        background-color: #88B9EA
+      .text {
+        color: #77A8D9;
+        font-size: 2em;
+        text-align: center;
+        text-shadow: 0 0 3px #6cf;
+        z-index: 1;
       }
 
-      .button:active{
-        background-color: #5586B7
-      }
-
-      .noselect {
-        user-select: none;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-      }
 
       .instruction-panel {
         background: #FFF;
@@ -77,20 +116,20 @@ limitations under the License.
       }
 
       .code-key {
-        background-color:#EEE;
-        border-radius:3px;
+        background-color: #EEE;
         border: solid gray 2px;
+        border-radius: 3px;
         box-shadow: 0 0 0.2em #999;
         color: #333;
         font-family: Monospace;
-        padding-left:5px;
-        padding-right:5px;
-        text-shadow:none;
-        font-size:100%;
+        font-size: 100%;
+        padding-left: 5px;
+        padding-right: 5px;
+        text-shadow: none;
       }
 
       .instruction-panel .code {
-        background-color:#EEE;
+        background-color: #EEE;
         border-radius: 3px;
         box-shadow: 0 0 0.2em #999;
         font-family: Monospace;
@@ -98,61 +137,95 @@ limitations under the License.
         margin-right: 5px;
         padding: 2px;
       }
+
+      .instruction-panel em {
+        margin-right: -7px;
+      }
+
     </style>
   </head>
   <body>
-    <h1 class="title">Sprite demo chrome sender.</h1>
-    <div>
-      <div class="instruction-panel">
-        <h4>Instructions:</h4>
-        <li>Make sure you have the Google cast extension installed.</li>
-        <li>Cast this tab to the Cast device.</li>
-        <li>When the app is loaded on the TV, press the big blue button!</li>
-      </div>
-
-      <div class='button noselect' onclick='sendSpritedemoMessage()'>
-        Click here to send a game message to the receiver
-      </div>
+    <div class="title">Starcast</div>
+    <div class="text">
+      <p>Make sure you have the Google cast extension installed.
+        Cast this tab to the Cast device.
+      Open chrome dev console for additional commands.</p>
+      <div>This sender supports up to 4 players using a single keyboard:</div>
+      <p>
+        <li>
+          Player 1: <span class="code-key">W</span> and
+          <span class="code-key">S</span> for up/down, <span class="code-key">
+          D</span> for fire
+        </li>
+        <li>
+          Player 2: <span class="code-key">I</span> and <span class="code-key">
+            K</span> for up/down, <span class="code-key">L</span> for fire
+        </li>
+        <li>
+          Player 3: <span class="code-key">&#8679;</span> and
+          <span class="code-key">&#8681;</span> for up/down,
+          <span class="code-key">&#8680;</span> for fire
+        </li>
+        <li>
+          Player 4: <span class="code-key">NumPad-8</span> and
+          <span class="code-key">NumPad-5</span> for up/down,
+          <span class="code-key">NumPad-6</span> for fire
+        </li>
+      </p>
     </div>
+
     <div class="instruction-panel">
       <h4>So... What's happenning here?</h4>
       <p>
-        This is an example of a basic cast sender that sends messages
-        to the receiver by using the <span class="code">sendGameMessage(...)
-        </span>function provided by <span class="code">
-        chrome.cast.games.GameManagerClient</span> in the Game Manager APIs.
-      </p>
-
-      <p>
-        The <span class="code">sendGameMessage(...)</span> function
-        can be used to send customized messages to the receiver.  For example,
-        in your own game, you may want to make your character "jump". You can
-        do this by <span class="code">sendGameMessage({action : 'jump'})</span>.
+        In this example multiple players are able to play through a
+        single cast sender by using the <span class="code"><em>functionName</em>
+        WithPlayerId(...)</span> functions provided in the Game Manager API.
       </p>
       <p>
-        In this game we initialized our player with: <span class="code">
-        sendPlayerAvailableRequest(...)</span> instead of <span class="code">
-        sendPlayerAvailableRequestWithPlayerId(...)</span>. When a custom
-        playerId is not provided, the receiver will automatically assign a
-        unique playerId to our sender. This means we can use the function
-        <span class="code">sendGameMessage(...)</span> instead of
-        <span class="code">sendGameMessageWithPlayerId(...)</span>just fine.
+        For example: Suppose you want make the player "John" perform a "jump"
+        action. You can achieve this by using
+        <span class="code">sendGameMessageWithPlayerId('John', {'action' :
+        'jump'})</span>.
       </p>
       <p>
-        In a game that supports multiple players on a single sender device,
-        you may need to send messages to the receiver with regard to
-        specific players. To see how you can create a game with custom playerIds
-        and send player specific messages, check out the sample app StarCast!
+        To register multiple players from a single sender is not very different
+        compared to registering a single anonymous user. To register a new
+        unique player, simple use the <span class="code">
+        sendPlayerAvailableRequestWithPlayerId(<em>unique_player_id</em> ,
+        ...)</span> instead of <span class="code">
+        sendPlayerAvailableRequest(...)</span> when registering a new player.
+        The game manager on the receiver will associate the new user to the same
+        sender device.
       </p>
-
+      <p>
+        In this example we also provide a function that generates randomized
+        control inputs called <span class="code">startPeriodicMessages(...)
+        </span>. It's a great demonstration on how one could easily make a
+        low level AI player by using the message system of the Game Manager API.
+        You can take a look by opening the source code to the demo and try
+        adding a random AI yourself through the chrome dev console!
+      </p>
+      <p>
+        There are also cases where you might only ever need one player per
+        sender device. In those situations, it might be easier to use the
+        non player specific functions instead. To see examples on how to use
+        non player specific functions, check out the SpriteDemo Sample App!
+      </p>
       <p>
         By opening the chrome dev console (You can do so by pressing the
         <span class="code-key">F12</span> key on a PC and
         <span class="code-key">Cmd</span> + <span class="code-key">Opt</span>
         + <span class="code-key">I</span>
-        on a Mac.) you can take a look some of the other available commands
+        on a Mac.) you can take a look some of the otheravailable commands
         provided by the Game Manager API.
       </p>
+    </div>
+
+    <div id="starContainer">
+      <div class="stars type1"></div>
+      <div class="stars type2"></div>
+      <div class="stars type3"></div>
+      <div class="stars type4"></div>
     </div>
 
     <!-- Load all of our scripts -->

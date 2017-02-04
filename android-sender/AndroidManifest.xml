@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.cast.samples.games.spritedemo"
+    package="com.google.cast.samples.games.starcast"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -24,7 +24,7 @@ limitations under the License.
         android:targetSdkVersion="19" />
 
     <application
-        android:name=".SpritedemoApplication"
+        android:name=".StarcastApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -34,8 +34,9 @@ limitations under the License.
             android:value="@integer/google_play_services_version" />
         <activity
             android:name=".MainActivity"
-            android:configChanges="keyboardHidden"
-            android:label="@string/app_name" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action
                     android:name="android.intent.action.MAIN" />

@@ -14,9 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.cast.samples.games.spellcast"
+    package="com.google.cast.samples.games.spritedemo"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -25,18 +24,18 @@ limitations under the License.
         android:targetSdkVersion="19" />
 
     <application
-        android:name=".SpellcastApplication"
+        android:name=".SpritedemoApplication"
         android:allowBackup="true"
-        android:icon="@drawable/spellcast_app_icon"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/spellcast_theme" >
+        android:theme="@style/Theme.AppCompat.Light" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name">
+            android:configChanges="keyboardHidden"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action
                     android:name="android.intent.action.MAIN" />
@@ -44,14 +43,6 @@ limitations under the License.
                 <category
                     android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".CharacterSetupActivity"
-            android:label="@string/character_setup_activity_title"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
         </activity>
     </application>
 </manifest>

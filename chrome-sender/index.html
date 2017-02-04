@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<!--
+Copyright 2015 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+    <title>Spellcast sender</title>
+    <style>
+      body {
+        background: #131040;
+        box-shadow: 0 0 0.5em #999;
+        color: #EEE;
+        margin: 0px;
+        padding: 1em;
+        text-align: center;
+      }
+
+      h3 {
+        margin: none;
+        padding: none;
+      }
+
+      .title {
+        color: #EEE;
+        font-family: Monospace;
+        font-size: 200%;
+        margin: none;
+        text-align: center;
+      }
+
+
+      #game-state-display {
+        background: #EEE;
+        border: solid gray 3px;
+        border-radius: 10px;
+        font-family: Monospace;
+      }
+
+
+      .instruction-panel {
+        background: #FFF;
+        border-radius: 10px;
+        box-shadow: 0 0 0.5em #999;
+        color: #222;
+        font-family: Arial;
+        line-height: 140%;
+        margin: 20px;
+        padding: 10px;
+        padding-left: 25px;
+        padding-right: 25px;
+        text-align: left;
+      }
+
+      .code-key {
+        background-color: #EEE;
+        border: solid gray 2px;
+        border-radius: 3px;
+        box-shadow: 0 0 0.2em #999;
+        color: #333;
+        font-family: Monospace;
+        font-size: 100%;
+        padding-left: 5px;
+        padding-right: 5px;
+        text-shadow: none;
+      }
+
+      .instruction-panel .code {
+        background-color: #EEE;
+        border-radius: 3px;
+        box-shadow: 0 0 0.2em #999;
+        font-family: Monospace;
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title">SpellCast chrome sender</h1>
+    <div class="instruction-panel">
+      <h3>
+        Instructions:
+      </h3>
+      <li><b>Recommended:</b> Try the mobile apps for SpellCast to gain some context for the explanations below.</li>
+      <li>Make sure you have the Google cast extension installed.</li>
+      <li>Cast this tab to the Cast device.</li>
+      <li>
+        Open chrome dev console by pressing <span class="code-key">F12</span>
+        on a PC or <span class="code-key">Cmd</span> +
+        <span class="code-key">Opt</span> +
+        <span class="code-key">I</span> on a Mac and start below.
+      </li>
+
+      <h3>
+        How does this work?
+      </h3>
+      <p>
+        After opening the chrome dev console, you will see a list of available
+        commands that can be used to control the app. In this demo, we will
+        operate the app through the dev console command line to give you some
+        insight on how the code works.
+      </p>
+      <p>
+        When the app is casted to the receiver device, you should see a screen
+        saying "Waiting for wizards to join".  We'll begin by sending a "player
+        available" message to the receiver by doing the following:
+        <div class="code">
+          sendPlayerAvailable(null, null)
+        </div>
+      </p>
+      <p>
+        Note that you don't have to provide a player name to send a players
+        available request. When you leave the <span class="code">playerId</span>
+        blank, the SDK will automatically generate a player name and attach it
+        to your sender. If there is already a playerId associated with your
+        sender device, then leaving the playerId field blank will assume the
+        ID of the already associated player.
+      </p>
+      <p>
+        Let's now send a special game message that SpellCast knows about to
+        show a debug UI (notice the first parameter is null to use the
+        already associated playerId):
+        <div class="code">
+          sendGameMessage(null, {debug: true})
+        </div>
+      </p>
+      <p>
+        At this point, you see a debug UI showing player information but
+        no actual player in the game screen. This is because although the
+        receiver knows of our availability, we have not readied our player
+        with name and avatar information. We
+        can ready our player with the function
+        <span class="code">
+          sendPlayerReady(<i>playerId</i>, <i>playerReadyData</i>)
+        </span>.
+        For your convenience, this demo contains functions to help you make data
+        objects you might need for game messages.  Let's create the player
+        ready data and set the name and avatar:
+        <div class="code">
+          var playerReadyData = createSpellcastPlayerReadyData();<br/>
+          playerReadyData.playerName='your_name_here';<br/>
+          playerReadyData.avatarIndex=0;<br/>
+        </div>
+      </p>
+      <p>
+        We can now ready our player by doing:
+        <div class="code">
+          sendPlayerReady(null, playerReadyData);
+        </div>
+      </p>
+      <p>
+        Your player should now appear on the screen ready to cast spells!
+        We can begin the game by sending a "player playing"
+        message to tell the game to start. We can do this with:
+        <div class="code">
+          sendPlayerPlaying(null, createSpellcastPlayerPlayingData());
+        </div>
+      </p>
+      <p>
+        You should now be taken to the instructions screen where the game loads,
+        and then be taken to the spell casting screen.
+      </p>
+      <p>
+        The game now waits for players to input spells. Let's create 3 spells:
+        <div class="code">
+          // First spell.<br>
+          var spell1 = createSpellcastSpell();<br>
+          spell1.spellType = 1;<br>
+          spell1.spellElement = 2;<br>
+          spell1.spellAccuracy = 1;<br>
+          <br>
+          // Second spell.<br>
+          var spell2 = createSpellcastSpell();<br>
+          spell2.spellType = 1;<br>
+          spell2.spellElement = 3;<br>
+          spell2.spellAccuracy = 1;<br>
+          <br>
+          // Third spell.<br>
+          var spell3 = createSpellcastSpell();<br>
+          spell3.spellType = 1;<br>
+          spell3.spellElement = 4;<br>
+          spell3.spellAccuracy = 1;<br>
+        </div>
+      </p>
+      <p>
+        Once we have made the spell, we can add the spells to an array and pass
+        the array to a new spell message.  We can then send the message to the
+        game which will perform our spell actions.
+        <div class="code">
+          var spellMessage =
+          createSpellcastSpellMessage([spell1, spell2, spell3]);<br>
+          sendGameMessage(null, spellMessage);<br>
+        </div>
+      </p>
+      <p>
+        At this point, your wizard on screen will fire three magic spells to the
+        enemy, and the enemy will attack back. Once the enemy's turn is over,
+        you can send more spells and repeat until either your wizard or the
+        enemy dies.
+      </p>
+      <p>
+        In this sample app we explored how to control a game by directly
+        calling functions provided by the Game Manager API.  By
+        attaching a well designed user interface that triggers these Game
+        Manager API functions, you could make a game just like SpellCast!
+      </p>
+    </div>
+    <!-- Load all of our scripts -->
+    <script src="script_loader.js"></script>
+  </body>
+</html>

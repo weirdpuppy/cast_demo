@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2015 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<resources>
+
+    <string name="app_name">Spell Cast</string>
+    <string name="media_route_menu_title">Play on&#8230;</string>
+    <string name="connect_label">Connect to the Google Cast device to start playing</string>
+
+    <string name="game_name_spellcast">Spell Cast</string>
+    <string name="button_start_battle">Start Battle!</string>
+    <string name="button_join_battle">Join Battle</string>
+    <string name="button_setup_character">Setup character</string>
+    <string name="content_description_accent">Decoration</string>
+    <string name="turn_enemy">Enemy Turn</string>
+    <string name="turn_player">Your Turn</string>
+    <string name="resolving_battle">Resolving battle!</string>
+    <string name="victory">VICTORY!</string>
+    <string name="defeat">DEFEAT</string>
+
+    <string name="button_forward">Forward</string>
+    <string name="button_backward">Back</string>
+    <string name="character_setup_activity_title">Character Setup</string>
+
+    <string name="game_connection_error_message">Game Connection Error</string>
+    <string name="game_dialog_ok_button_text">OK</string>
+
+    <!-- Preferences for character setup -->
+    <string name="pref_difficulty_title">Wizard Rank</string>
+    <string name="pref_character_name_title">Character Name</string>
+    <string name="pref_character_name_default">Wizzy</string>
+    <string name="pref_character_name_key">character_name</string>
+    <string name="pref_avatar">Avatar</string>
+    <string name="pref_avatar_key">avatar</string>
+    <string name="pref_difficulty_key">difficulty</string>
+    <string-array name="pref_difficulty_entries">
+        <item>Novice: New to casting spells</item>
+        <item>Adept: Proficient in magic</item>
+        <item>Archmage: Master of wizardry</item>
+    </string-array>
+    <string name="pref_button_ok">button_ok</string>
+    <string name="button_ok">OK</string>
+
+    <!-- Ability Names -->
+    <string name="ability_name_attack_fire">Fire</string>
+    <string name="ability_name_attack_air">Air</string>
+    <string name="ability_name_attack_water">Water</string>
+    <string name="ability_name_attack_earth">Earth</string>
+    <string name="ability_name_shield">Shield</string>
+    <string name="ability_name_heal">Heal</string>
+
+    <string name="back_arrow_text">&#x2190;</string>
+    <string name="forward_arrow_text">&#x2192;</string>
+
+</resources>

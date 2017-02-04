@@ -702,8 +702,8 @@ cast.games.starcast.StarcastGame.prototype.onAssetsLoaded_ = function () {
         var player = PIXI.Sprite.fromImage("assets/player.png");
         player.anchor.x = .5;
         player.anchor.y = .5;
-        player.position.y = 60;
-        player.position.x = this.canvasWidth_ / 2;
+        player.position.x = 60;
+        player.position.y = this.canvasHeight_ / 2;
         player.scale.x = player.scale.y = 1;
         player.visible = !1;
         this.container_.addChild(player);

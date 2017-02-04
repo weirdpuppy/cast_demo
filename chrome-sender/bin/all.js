@@ -788,79 +788,35 @@ cast.games.common.sender.setup.onCastError_ = function(error) {
   console.log("### Cast sender API error:");
   console.dir(error);
 };
-cast.games.spellcast = {};
-cast.games.spellcast.messages = {};
-cast.games.spellcast.messages.DifficultySetting = {UNKNOWN:0, EASY:1, NORMAL:2, HARD:3};
-goog.exportSymbol("cast.games.spellcast.messages.DifficultySetting", cast.games.spellcast.messages.DifficultySetting);
-cast.games.spellcast.messages.PlayerBonus = {UNKNOWN:0, NONE:1, ATTACK:2, HEAL:3, SHIELD:4};
-goog.exportSymbol("cast.games.spellcast.messages.PlayerBonus", cast.games.spellcast.messages.PlayerBonus);
-cast.games.spellcast.messages.SpellType = {UNKNOWN:0, BASIC_ATTACK:1, HEAL:2, SHIELD:3};
-goog.exportSymbol("cast.games.spellcast.messages.SpellType", cast.games.spellcast.messages.SpellType);
-cast.games.spellcast.messages.SpellElement = {UNKNOWN:0, NONE:1, AIR:2, WATER:3, FIRE:4, EARTH:5};
-goog.exportSymbol("cast.games.spellcast.messages.SpellElement", cast.games.spellcast.messages.SpellElement);
-cast.games.spellcast.messages.SpellAccuracy = {UNKNOWN:0, PERFECT:1, GREAT:2, GOOD:3};
-goog.exportSymbol("cast.games.spellcast.messages.SpellAccuracy", cast.games.spellcast.messages.SpellAccuracy);
-cast.games.spellcast.messages.GameStateId = {UNKNOWN:0, WAITING_FOR_PLAYERS:1, INSTRUCTIONS:2, PLAYER_ACTION:3, PLAYER_RESOLUTION:4, ENEMY_RESOLUTION:5, PLAYER_VICTORY:6, ENEMY_VICTORY:7, PAUSED:8};
-goog.exportSymbol("cast.games.spellcast.messages.GameStateId", cast.games.spellcast.messages.GameStateId);
-cast.games.spellcast.messages.GameData = function() {
-  this.gameStateId = cast.games.spellcast.messages.GameStateId.UNKNOWN;
+cast.games.spritedemo = {};
+cast.games.spritedemo.SpritedemoMessageType = {UNKNOWN:0, SPRITE:1};
+cast.games.spritedemo.SpritedemoMessage = function() {
+  this.type = cast.games.spritedemo.SpritedemoMessageType.UNKNOWN;
 };
-goog.exportSymbol("cast.games.spellcast.messages.GameData", cast.games.spellcast.messages.GameData);
-cast.games.spellcast.messages.PlayerReadyData = function() {
-  this.playerName = "";
-  this.avatarIndex = 0;
-};
-goog.exportSymbol("cast.games.spellcast.messages.PlayerReadyData", cast.games.spellcast.messages.PlayerReadyData);
-cast.games.spellcast.messages.PlayerPlayingData = function() {
-  this.difficultySetting = cast.games.spellcast.messages.DifficultySetting.EASY;
-};
-goog.exportSymbol("cast.games.spellcast.messages.PlayerPlayingData", cast.games.spellcast.messages.PlayerPlayingData);
-cast.games.spellcast.messages.PlayerMessage = function() {
-  this.playerBonus = cast.games.spellcast.messages.PlayerBonus.NONE;
-  this.castSpellsDurationMillis = 0;
-};
-goog.exportSymbol("cast.games.spellcast.messages.PlayerMessage", cast.games.spellcast.messages.PlayerMessage);
-cast.games.spellcast.messages.Spell = function() {
-  this.spellType = cast.games.spellcast.messages.SpellType.UNKNOWN;
-  this.spellElement = cast.games.spellcast.messages.SpellElement.NONE;
-  this.spellAccuracy = cast.games.spellcast.messages.SpellAccuracy.GOOD;
-};
-goog.exportSymbol("cast.games.spellcast.messages.Spell", cast.games.spellcast.messages.Spell);
-cast.games.spellcast.messages.SpellMessage = function() {
-  this.spells = [];
-};
-goog.exportSymbol("cast.games.spellcast.messages.SpellMessage", cast.games.spellcast.messages.SpellMessage);
+goog.exportSymbol("cast.games.spritedemo.SpritedemoMessage", cast.games.spritedemo.SpritedemoMessage);
 var gameManagerClient = null;
 window.__onGCastApiAvailable = function(loaded, errorInfo) {
-  loaded ? cast.games.common.sender.setup("E92ACE28", onSessionReady_) : (console.error("### Cast Sender SDK failed to load:"), console.dir(errorInfo));
+  loaded ? cast.games.common.sender.setup("D6120C32", onSessionReady_) : (console.error("### Cast Sender SDK failed to load:"), console.dir(errorInfo));
 };
 var onSessionReady_ = function(session) {
   console.log("### Creating game manager client.");
   chrome.cast.games.GameManagerClient.getInstanceFor(session, function(result) {
+    console.log("### Game manager client initialized!");
     gameManagerClient = result.gameManagerClient;
     cast.games.common.sender.debugGameManagerClient(gameManagerClient);
-    console.log("### Game manager client initialized!");
+    console.log("### Sending AVAILABLE message.");
+    gameManagerClient.sendPlayerAvailableRequest(null, null, null);
     help();
   }, function(error) {
     console.error("### Error initializing the game manager client: " + error.errorDescription + " Error code: " + error.errorCode);
   });
 };
-goog.exportSymbol("createSpellcastPlayerReadyData", function() {
-  return new cast.games.spellcast.messages.PlayerReadyData;
+goog.exportSymbol("sendSpritedemoMessage", function() {
+  if (gameManagerClient) {
+    var message = new cast.games.spritedemo.SpritedemoMessage;
+    message.type = cast.games.spritedemo.SpritedemoMessageType.SPRITE;
+    gameManagerClient.sendGameMessage(message);
+  }
 });
-commandDocs.add("createSpellcastPlayerReadyData() - create spellcast player ready data");
-goog.exportSymbol("createSpellcastPlayerPlayingData", function() {
-  return new cast.games.spellcast.messages.PlayerPlayingData;
-});
-commandDocs.add("createSpellcastPlayerPlayingData() - create spellcast player playing data");
-goog.exportSymbol("createSpellcastSpell", function() {
-  return new cast.games.spellcast.messages.Spell;
-});
-commandDocs.add("createSpellcastSpell() - create spellcast spell");
-goog.exportSymbol("createSpellcastSpellMessage", function(spells) {
-  var spellMessage = new cast.games.spellcast.messages.SpellMessage;
-  spellMessage.spells = spells;
-  return spellMessage;
-});
-commandDocs.add("createSpellcastSpellMessage(spells) - create spellcast game message");
+commandDocs.add("sendSpritedemoMessage() - This function creates a new cast.games.spritedemo.SpritedemoMessage(), which is a container created specifically for the needs of this cast application. It then  sends the message to the receiver using the  sendGameMessageWithPlayerId function in GameManagerClient.");
 

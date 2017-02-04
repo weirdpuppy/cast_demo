@@ -22,7 +22,7 @@ goog.require('cast.games.spritedemo.SpritedemoMessageType');
 
 
 /** @define {string} Application ID used when running the sender. */
-var APP_ID = 'D6120C32';
+var APP_ID = '0AEB0339';
 
 // Global reference to game session manager for console debugging.
 var gameManagerClient = null;

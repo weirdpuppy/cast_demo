@@ -22,7 +22,7 @@ goog.require('cast.games.spritedemo.SpritedemoMessageType');
 
 
 /** @define {string} Application ID used when running the sender. */
-var APP_ID = 'D6120C32';
+var APP_ID = '0AEB0339';
 
 // Global reference to game session manager for console debugging.
 var gameManagerClient = null;
@@ -36,14 +36,14 @@ var SpritedemoMessageType = cast.games.spritedemo.SpritedemoMessageType;
  * @param {boolean} loaded
  * @param {Object} errorInfo
  */
-window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
-  if (!loaded) {
-    console.error('### Cast Sender SDK failed to load:');
-    console.dir(errorInfo);
-    return;
-  }
+window['__onGCastApiAvailable'] = function (loaded, errorInfo) {
+    if (!loaded) {
+        console.error('### Cast Sender SDK failed to load:');
+        console.dir(errorInfo);
+        return;
+    }
 
-  cast.games.common.sender.setup(APP_ID, onSessionReady_);
+    cast.games.common.sender.setup(APP_ID, onSessionReady_);
 };
 
 
@@ -52,23 +52,23 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
  * @param {!chrome.cast.Session} session
  * @private
  */
-var onSessionReady_ = function(session) {
-  console.log('### Creating game manager client.');
-  chrome.cast.games.GameManagerClient.getInstanceFor(session,
-      function(result) {
-        console.log('### Game manager client initialized!');
-        gameManagerClient = result.gameManagerClient;
-        cast.games.common.sender.debugGameManagerClient(gameManagerClient);
+var onSessionReady_ = function (session) {
+    console.log('### Creating game manager client.');
+    chrome.cast.games.GameManagerClient.getInstanceFor(session,
+        function (result) {
+            console.log('### Game manager client initialized!');
+            gameManagerClient = result.gameManagerClient;
+            cast.games.common.sender.debugGameManagerClient(gameManagerClient);
 
-        console.log('### Sending AVAILABLE message.');
-        gameManagerClient.sendPlayerAvailableRequest(null, null, null);
-        help();
-      },
-      function(error) {
-        console.error('### Error initializing the game manager client: ' +
-            error.errorDescription + ' ' +
-            'Error code: ' + error.errorCode);
-      });
+            console.log('### Sending AVAILABLE message.');
+            gameManagerClient.sendPlayerAvailableRequest(null, null, null);
+            help();
+        },
+        function (error) {
+            console.error('### Error initializing the game manager client: ' +
+                error.errorDescription + ' ' +
+                'Error code: ' + error.errorCode);
+        });
 };
 
 
@@ -77,14 +77,14 @@ var onSessionReady_ = function(session) {
  * screen when received.
  * @export
  */
-var sendSpritedemoMessage = function() {
-  if (!gameManagerClient) {
-    return;
-  }
-  var message = new cast.games.spritedemo.SpritedemoMessage();
-  message.type = cast.games.spritedemo.SpritedemoMessageType.SPRITE;
+var sendSpritedemoMessage = function () {
+    if (!gameManagerClient) {
+        return;
+    }
+    var message = new cast.games.spritedemo.SpritedemoMessage();
+    message.type = cast.games.spritedemo.SpritedemoMessageType.SPRITE;
 
-  gameManagerClient.sendGameMessage(message);
+    gameManagerClient.sendGameMessage(message);
 };
 commandDocs.add('sendSpritedemoMessage() - This function creates a new ' +
     'cast.games.spritedemo.SpritedemoMessage(), which is a container created ' +

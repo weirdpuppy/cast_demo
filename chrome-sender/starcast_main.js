@@ -20,7 +20,7 @@ goog.require('cast.games.common.sender.setup');
 
 
 /** @define {string} Application ID used when running the sender. */
-var APP_ID = '54E247D6';
+var APP_ID = '74289431';
 
 // Global reference to game session manager for console debugging.
 var gameManagerClient = null;
@@ -33,30 +33,78 @@ var lastMessageWasFire = true;
 
 // Player Ids suffixes for the different control schemes.
 var HUMAN_PLAYER_ID_SUFFIXES = {
-  WSD: 'WSD',
-  IKL: 'IKL',
-  ARROW: 'ARROW',
-  NUMPAD: 'NUMPAD'
+    WSD: 'WSD',
+    IKL: 'IKL',
+    ARROW: 'ARROW',
+    NUMPAD: 'NUMPAD'
 };
 
 // A map from keycodes to player identifiers and actions.
 var keyCodeActionMap = {
-  // WSD keys.
-  87 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.WSD, fire: false, move: -0.1},
-  83 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.WSD, fire: false, move: 0.1},
-  68 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.WSD, fire: true, move: 0},
-  // IKL keys.
-  73 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.IKL, fire: false, move: -0.1},
-  75 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.IKL, fire: false, move: 0.1},
-  76 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.IKL, fire: true, move: 0},
-  // Arrow keys.
-  38 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.ARROW, fire: false, move: -0.1},
-  40 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.ARROW, fire: false, move: 0.1},
-  39 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.ARROW, fire: true, move: 0},
-  // Number pad keys.
-  104 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.NUMPAD, fire: false, move: -0.1},
-  101 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.NUMPAD, fire: false, move: 0.1},
-  102 : {keySet: HUMAN_PLAYER_ID_SUFFIXES.NUMPAD, fire: true, move: 0},
+    // WSD keys.
+    87: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.WSD,
+        fire: false,
+        move: -0.1
+    },
+    83: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.WSD,
+        fire: false,
+        move: 0.1
+    },
+    68: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.WSD,
+        fire: true,
+        move: 0
+    },
+    // IKL keys.
+    73: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.IKL,
+        fire: false,
+        move: -0.1
+    },
+    75: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.IKL,
+        fire: false,
+        move: 0.1
+    },
+    76: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.IKL,
+        fire: true,
+        move: 0
+    },
+    // Arrow keys.
+    38: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.ARROW,
+        fire: false,
+        move: -0.1
+    },
+    40: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.ARROW,
+        fire: false,
+        move: 0.1
+    },
+    39: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.ARROW,
+        fire: true,
+        move: 0
+    },
+    // Number pad keys.
+    104: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.NUMPAD,
+        fire: false,
+        move: -0.1
+    },
+    101: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.NUMPAD,
+        fire: false,
+        move: 0.1
+    },
+    102: {
+        keySet: HUMAN_PLAYER_ID_SUFFIXES.NUMPAD,
+        fire: true,
+        move: 0
+    },
 };
 
 // Necessary to be able to have multiple chrome senders.
@@ -77,14 +125,14 @@ var MOVE_FIELD = 'move';
  * @param {boolean} loaded
  * @param {Object} errorInfo
  */
-window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
-  if (!loaded) {
-    console.error('### Cast Sender SDK failed to load:');
-    console.dir(errorInfo);
-    return;
-  }
+window['__onGCastApiAvailable'] = function (loaded, errorInfo) {
+    if (!loaded) {
+        console.error('### Cast Sender SDK failed to load:');
+        console.dir(errorInfo);
+        return;
+    }
 
-  cast.games.common.sender.setup(APP_ID, onSessionReady_);
+    cast.games.common.sender.setup(APP_ID, onSessionReady_);
 };
 
 
@@ -96,15 +144,15 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
  * @return {number} The new position.
  * @private
  */
-var updatePlayerPosition_ = function(playerId, delta) {
-  if (playerPositions[playerId] == undefined) {
-    playerPositions[playerId] = 0.5;
-  }
-  var position = playerPositions[playerId] + delta;
-  position = position > 1 ? 1 : position;
-  position = position < 0 ? 0 : position;
-  playerPositions[playerId] = position;
-  return position;
+var updatePlayerPosition_ = function (playerId, delta) {
+    if (playerPositions[playerId] == undefined) {
+        playerPositions[playerId] = 0.5;
+    }
+    var position = playerPositions[playerId] + delta;
+    position = position > 1 ? 1 : position;
+    position = position < 0 ? 0 : position;
+    playerPositions[playerId] = position;
+    return position;
 };
 
 
@@ -113,22 +161,22 @@ var updatePlayerPosition_ = function(playerId, delta) {
  * @param {!chrome.cast.Session} session
  * @private
  */
-var onSessionReady_ = function(session) {
-  console.log('### Creating game manager client.');
-  chrome.cast.games.GameManagerClient.getInstanceFor(session,
-      function(result) {
-        console.log('### Game manager client initialized!');
-        gameManagerClient = result.gameManagerClient;
-        cast.games.common.sender.debugGameManagerClient(gameManagerClient);
-        // Register an event listener for when a key is pressed.
-        window.addEventListener('keydown', onKeyDown_, true);
-        help();
-      },
-      function(error) {
-        console.error('### Error initializing the game manager client: ' +
-            error.errorDescription + ' ' +
-            'Error code: ' + error.errorCode);
-      });
+var onSessionReady_ = function (session) {
+    console.log('### Creating game manager client.');
+    chrome.cast.games.GameManagerClient.getInstanceFor(session,
+        function (result) {
+            console.log('### Game manager client initialized!');
+            gameManagerClient = result.gameManagerClient;
+            cast.games.common.sender.debugGameManagerClient(gameManagerClient);
+            // Register an event listener for when a key is pressed.
+            window.addEventListener('keydown', onKeyDown_, true);
+            help();
+        },
+        function (error) {
+            console.error('### Error initializing the game manager client: ' +
+                error.errorDescription + ' ' +
+                'Error code: ' + error.errorCode);
+        });
 };
 
 
@@ -137,25 +185,27 @@ var onSessionReady_ = function(session) {
  * @param {!Event} event
  * @private
  */
-var onKeyDown_ = function(event) {
-  console.log('### Key detected: ' + event.keyCode);
-  var keyCodeAction = keyCodeActionMap[event.keyCode];
-  var playerId = playerIdPrefix + keyCodeAction.keySet;
-  var message = {};
-  message[FIRE_FIELD] = keyCodeAction.fire;
-  message[MOVE_FIELD] = updatePlayerPosition_(playerId, keyCodeAction.move);
+var onKeyDown_ = function (event) {
+    console.log('### Key detected: ' + event.keyCode);
+    var keyCodeAction = keyCodeActionMap[event.keyCode];
+    var playerId = playerIdPrefix + keyCodeAction.keySet;
+    var message = {};
+    message[FIRE_FIELD] = keyCodeAction.fire;
+    message[MOVE_FIELD] = updatePlayerPosition_(playerId, keyCodeAction.move);
 
-  // Send the message.
-  if (playerId && message) {
-    var player = gameManagerClient.getCurrentState().getPlayer(playerId);
-    if (!player) {
-      gameManagerClient.sendPlayerAvailableRequestWithPlayerId(playerId,
-          /* extraMessageData */ null,
-          /* successCallback */ null, /* errorCallback */ null);
-    } else {
-      gameManagerClient.sendGameMessageWithPlayerId(playerId, message);
+    // Send the message.
+    if (playerId && message) {
+        var player = gameManagerClient.getCurrentState().getPlayer(playerId);
+        if (!player) {
+            gameManagerClient.sendPlayerAvailableRequestWithPlayerId(playerId,
+                /* extraMessageData */
+                null,
+                /* successCallback */
+                null, /* errorCallback */ null);
+        } else {
+            gameManagerClient.sendGameMessageWithPlayerId(playerId, message);
+        }
     }
-  }
 };
 
 
@@ -169,27 +219,27 @@ var onKeyDown_ = function(event) {
  * @param {number} frequency How often to send the messages (in milliseconds).
  * @export
  */
-var startPeriodicMessages = function(playerId, messageFactory, frequency) {
-  stopPeriodicMessages();
+var startPeriodicMessages = function (playerId, messageFactory, frequency) {
+    stopPeriodicMessages();
 
-  if (!playerId) {
-    var players = gameManagerClient.getCurrentState().getPlayers();
-    if (players.length > 0) {
-      playerId = players[0].playerId;
+    if (!playerId) {
+        var players = gameManagerClient.getCurrentState().getPlayers();
+        if (players.length > 0) {
+            playerId = players[0].playerId;
+        }
     }
-  }
 
-  if (!playerId) {
-    console.log('### Can\'t start sending periodic messages. No players!');
-    return;
-  }
+    if (!playerId) {
+        console.log('### Can\'t start sending periodic messages. No players!');
+        return;
+    }
 
-  var closure = function() {
-    var message = messageFactory(playerId);
-    gameManagerClient.sendGameMessageWithPlayerId(playerId, message);
-    timeoutObject = setTimeout(closure, frequency);
-  };
-  closure();
+    var closure = function () {
+        var message = messageFactory(playerId);
+        gameManagerClient.sendGameMessageWithPlayerId(playerId, message);
+        timeoutObject = setTimeout(closure, frequency);
+    };
+    closure();
 };
 commandDocs.add('startPeriodicMessages(playerId, messageFactory, frequency)' +
     ' - send preriodic messages constructed by messageFactory');
@@ -199,10 +249,10 @@ commandDocs.add('startPeriodicMessages(playerId, messageFactory, frequency)' +
  * Stops a previously started periodic message.
  * @export
  */
-var stopPeriodicMessages = function() {
-  if (timeoutObject) {
-    clearTimeout(timeoutObject);
-  }
+var stopPeriodicMessages = function () {
+    if (timeoutObject) {
+        clearTimeout(timeoutObject);
+    }
 };
 commandDocs.add('stopPeriodicMessages() - stop sending periodic messages.');
 
@@ -214,15 +264,15 @@ commandDocs.add('stopPeriodicMessages() - stop sending periodic messages.');
  * @return {!Object} The message JSON object.
  * @export
  */
-var randomMessageFactory = function(playerId) {
-  var message = {};
-  message[FIRE_FIELD] = false;
+var randomMessageFactory = function (playerId) {
+    var message = {};
+    message[FIRE_FIELD] = false;
 
-  if (Math.random() > 0.5) {
-    message[FIRE_FIELD] = true;
-  }
-  message[MOVE_FIELD] = Math.random();
-  return message;
+    if (Math.random() > 0.5) {
+        message[FIRE_FIELD] = true;
+    }
+    message[MOVE_FIELD] = Math.random();
+    return message;
 };
 commandDocs.add('randomMessageFactory - random message factory for ' +
     'starcast');
@@ -236,21 +286,21 @@ commandDocs.add('randomMessageFactory - random message factory for ' +
  * @return {!Object} The message JSON object.
  * @export
  */
-var alignedMessageFactory = function(playerId) {
-  var message = {};
-  message[FIRE_FIELD] = false;
+var alignedMessageFactory = function (playerId) {
+    var message = {};
+    message[FIRE_FIELD] = false;
 
-  if (lastMessageWasFire) {
-    message[MOVE_FIELD] = updatePlayerPosition_(playerId, 0.1);
-    if (message[MOVE_FIELD] >= 1) {
-      playerPositions[playerId] = -0.1;
+    if (lastMessageWasFire) {
+        message[MOVE_FIELD] = updatePlayerPosition_(playerId, 0.1);
+        if (message[MOVE_FIELD] >= 1) {
+            playerPositions[playerId] = -0.1;
+        }
+    } else {
+        message[FIRE_FIELD] = true;
     }
-  } else {
-    message[FIRE_FIELD] = true;
-  }
 
-  lastMessageWasFire = !lastMessageWasFire;
-  return message;
+    lastMessageWasFire = !lastMessageWasFire;
+    return message;
 };
 commandDocs.add('alignedMessageFactory - message factory ' +
     'for starcast that sends a move message followed by a fire message');

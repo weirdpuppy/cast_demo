@@ -20,34 +20,33 @@ var game = null;
  * Main entry point. This is not meant to be compiled so suppressing missing
  * goog.require checks.
  */
-var initialize = function() {
-  var castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-  var appConfig = new cast.receiver.CastReceiverManager.Config();
+var initialize = function () {
+    var castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+    var appConfig = new cast.receiver.CastReceiverManager.Config();
 
-  appConfig.statusText = 'Starcast';
-  // In production, use the default maxInactivity instead of using this.
-  appConfig.maxInactivity = 6000;
+    appConfig.statusText = 'casthack';
+    // In production, use the default maxInactivity instead of using this.
+    appConfig.maxInactivity = 6000;
 
-  // Create the game before starting castReceiverManager to make sure any extra
-  // cast namespaces can be set up.
-  /** @suppress {missingRequire} */
-  var gameConfig = new cast.receiver.games.GameManagerConfig();
-  gameConfig.applicationName = 'Starcast';
-  /** @suppress {missingRequire} */
-  var gameManager = new cast.receiver.games.GameManager(gameConfig);
-  /** @suppress {missingRequire} */
-  game = new cast.games.starcast.StarcastGame(gameManager);
+    // Create the game before starting castReceiverManager to make sure any extra
+    // cast namespaces can be set up.
+    /** @suppress {missingRequire} */
+    var gameConfig = new cast.receiver.games.GameManagerConfig();
+    gameConfig.applicationName = 'casthack';
+    /** @suppress {missingRequire} */
+    var gameManager = new cast.receiver.games.GameManager(gameConfig);
+    /** @suppress {missingRequire} */
+    game = new cast.games.casthack.Casthack(gameManager);
 
-  castReceiverManager.start(appConfig);
-  game.run(function() {
-    console.log('Game running.');
-  });
+    castReceiverManager.start(appConfig);
+    game.run(function () {
+        console.log('Game running.');
+    });
 };
 
 if (document.readyState === 'complete') {
-  initialize();
+    initialize();
 } else {
-  /** Main entry point. */
-  window.onload = initialize;
+    /** Main entry point. */
+    window.onload = initialize;
 }
-
